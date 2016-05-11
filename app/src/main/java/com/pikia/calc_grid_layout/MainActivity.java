@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView result;
     private Button zero, period, one, two, three, four, five, six, seven, eight, nine;
-    private Button clear, equals, plus, minus, multiply, divide;
+    private Button clear, equals, plus, minus, multiply, divide, negative;
 
     private List<Double> entries = new ArrayList<>();
     private List<Integer> action = new ArrayList<>();
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         clear = (Button) findViewById(R.id.clear);
         multiply = (Button) findViewById(R.id.multiplication);
         divide = (Button) findViewById(R.id.divide);
+        negative = (Button) findViewById(R.id.negative);
 
         ////////////////// Numerical ClickListener ////////////////////////
         zero.setOnClickListener(
@@ -149,7 +150,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
         );
-        ////////////////// Numerical ClickListener ////////////////////////
+        ////////////////// End of Numerical ClickListener ////////////////////////
+
+
 
         ////////////// Plus,Minus etc ClickListener ///////////////////////
 
@@ -192,33 +195,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
         );
-        equals.setOnClickListener(  // Should I change for loop into swtich?
+
+        negative.setOnClickListener(
+                new Button.OnClickListener(){
+                    public void onClick(View v){
+                        result.setText("-" + result.getText());
+                    }
+                }
+        );
+
+        equals.setOnClickListener(
                 new Button.OnClickListener() {
                     public void onClick(View v) {
                         entries.add(Double.parseDouble(result.getText().toString())); // adding the final input to entries
                         Double total = entries.get(0); //Using Double in order to convert to string.
-                        int operatorLocation = 0;
-                        for (int i = 0; i < entries.size() - 1; i++) {
-                            double num = entries.get(i+1);
-                            int op = action.get(operatorLocation);
-                            if (op == 0 /*addition*/) {
-                                total += num;
-                            }
-                            if (op == 1 /*subtraction*/) {
-                                total -= num;
-                            }
 
-                            if(op == 2 /*multiplication*/){
-                                total *=  num;
-                            }
+                        total = doOperations(action,entries,total);
 
-                            if(op == 3 /*multiplication*/){
-                                total /= num;
-                            }
-
-                            operatorLocation++;
-                        }
-                        operatorLocation = 0;
                         entries.clear();
                         action.clear();
                         result.setText(total.toString());
@@ -237,5 +230,34 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
     }
+    ////////////// End of Plus,Minus etc ClickListener ///////////////////////
 
+
+    public double doOperations(List<Integer> action, List<Double> entries, Double total){
+        int operatorLocation = 0;
+
+        for (int i = 0; i < entries.size() - 1; i++) {
+            double num = entries.get(i+1);
+            int op = action.get(operatorLocation);
+            if (op == 0 /*addition*/) {
+                total += num;
+            }
+            if (op == 1 /*subtraction*/) {
+                total -= num;
+            }
+
+            if(op == 2 /*multiplication*/){
+                total *=  num;
+            }
+
+            if(op == 3 /*multiplication*/){
+                total /= num;
+            }
+
+            operatorLocation++;
+        }
+
+        operatorLocation = 0;
+        return total;
+    }
 }

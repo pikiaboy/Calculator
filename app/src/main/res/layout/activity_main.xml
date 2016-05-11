@@ -183,7 +183,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gridLayout"
-        android:layout_alignStart="@+id/gridLayout">
+        android:layout_alignStart="@+id/gridLayout"
+        android:id="@+id/gridLayout3">
 
         <Button
             android:layout_width="wrap_content"
@@ -215,5 +216,13 @@
             android:layout_column="2"
             android:clickable="true" />
     </GridLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+/-"
+        android:id="@+id/negative"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
